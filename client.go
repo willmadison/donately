@@ -135,7 +135,8 @@ func WithRetry() ClientOption {
 // The client uses "https://api.com/v2" as the default base URL.
 func NewDonatelyClient(options ...ClientOption) (Client, error) {
 	clientOptions := clientOption{
-		baseURL: "https://api.com/v2",
+		baseURL:            "https://api.donately.com/v2",
+		donatelyAPIVersion: "2018-04-01",
 	}
 
 	for _, option := range options {
