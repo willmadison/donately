@@ -1,0 +1,31 @@
+version: 2.1
+
+executors:
+  go-executor:
+    docker:
+      - image: cimg/go:1.22
+    environment:
+      GO111MODULE: "on"
+
+jobs:
+  test:
+    executor: go-executor
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: go mod download
+      - run:
+          name: Verify module tidiness
+          command: |
+            go mod tidy
+            git diff --exit-code go.mod go.sum
+      - run:
+          name: Run tests
+          command: go test -v ./...
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - test
